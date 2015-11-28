@@ -8,15 +8,15 @@ public enum MoviesSortOrder
     MOST_POPULAR("popularity.desc"),
     HIGEST_RATED("vote_average.desc");
 
-    private String sortOption;
+    private String sortOrder;
 
-    MoviesSortOrder(String sortOption)
+    MoviesSortOrder(String sortOrder)
     {
-        this.sortOption = sortOption;
+        this.sortOrder = sortOrder;
     }
 
-    public String getSortOption()
+    public String getSortOrder()
     {
-        return sortOption;
+        return sortOrder;
     }
 }
