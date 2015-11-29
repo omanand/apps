@@ -18,8 +18,8 @@ public class MovieDetail implements Parcelable
     private String voteAverage;
     private int runtime;
 
-    public MovieDetail(String id, String originalTitle, String posterPath, String overview, Date releaseDate, String voteAverage,
-                       int runtime)
+    public MovieDetail(String id, String originalTitle, String posterPath, String overview, Date releaseDate,
+            String voteAverage, int runtime)
     {
         this.id = id;
         this.originalTitle = originalTitle;
@@ -66,7 +66,8 @@ public class MovieDetail implements Parcelable
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(Object o)
+    {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
@@ -81,7 +82,8 @@ public class MovieDetail implements Parcelable
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         int result = id.hashCode();
         result = 31 * result + originalTitle.hashCode();
         result = 31 * result + posterPath.hashCode();

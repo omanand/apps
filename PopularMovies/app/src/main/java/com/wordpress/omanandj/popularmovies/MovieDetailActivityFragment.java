@@ -11,10 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+import com.wordpress.omanandj.popularmovies.async.AsyncTaskResult;
 import com.wordpress.omanandj.popularmovies.async.FetchMovieDetailTask;
-import com.wordpress.omanandj.popularmovies.async.IAsyncTaskResponse;
+import com.wordpress.omanandj.popularmovies.async.IAsyncTaskResponseHandler;
 import com.wordpress.omanandj.popularmovies.model.MovieDetail;
 import com.wordpress.omanandj.popularmovies.service.IMovieDbService;
 import com.wordpress.omanandj.popularmovies.service.impl.MovieDbService;
@@ -22,7 +24,8 @@ import com.wordpress.omanandj.popularmovies.service.impl.MovieDbService;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MovieDetailActivityFragment extends Fragment implements IAsyncTaskResponse<MovieDetail>
+public class MovieDetailActivityFragment extends Fragment implements
+        IAsyncTaskResponseHandler<AsyncTaskResult<MovieDetail>>
 {
 
     private static final String LOG_TAG = MoviesActivityFragment.class.getSimpleName();
@@ -61,17 +64,18 @@ public class MovieDetailActivityFragment extends Fragment implements IAsyncTaskR
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        final View rootView =  inflater.inflate(R.layout.fragment_movie_detail, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_movie_detail, container, false);
 
-        if (null == savedInstanceState  || !savedInstanceState.containsKey(MOVIE_DETAIL_KEY)) {
+        if (null == savedInstanceState || !savedInstanceState.containsKey(MOVIE_DETAIL_KEY)) {
             Intent intent = getActivity().getIntent();
-            if (null !=intent  && intent.hasExtra(Intent.EXTRA_TEXT)) {
+            if (null != intent && intent.hasExtra(Intent.EXTRA_TEXT)) {
                 String movieId = intent.getStringExtra(Intent.EXTRA_TEXT);
-                FetchMovieDetailTask fetchMovieDetailTask = new FetchMovieDetailTask(this);
+                FetchMovieDetailTask fetchMovieDetailTask = new FetchMovieDetailTask(this, getContext());
                 fetchMovieDetailTask.execute(movieId);
             }
 
-        } else {
+        }
+        else {
             movieDetail = savedInstanceState.getParcelable(MOVIE_DETAIL_KEY);
 
         }
@@ -80,7 +84,8 @@ public class MovieDetailActivityFragment extends Fragment implements IAsyncTaskR
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState)
+    {
         super.onViewCreated(view, savedInstanceState);
         movieTitleTextView = (TextView) getView().findViewById(R.id.movie_detail_title_id);
         moviePosterImageView = (ImageView) getView().findViewById(R.id.movie_poster_image_view_id);
@@ -89,17 +94,23 @@ public class MovieDetailActivityFragment extends Fragment implements IAsyncTaskR
         movieRatingTextView = (TextView) getView().findViewById(R.id.movie_detail_vote_avg_id);
         movieDetailDescTextView = (TextView) getView().findViewById(R.id.movie_detail_desc_id);
 
-        if(null != movieDetail) {
+        if (null != movieDetail) {
             refreshUi(movieDetail);
         }
     }
 
     @Override
-    public void processFinish(MovieDetail movieDetail)
+    public void processFinish(AsyncTaskResult<MovieDetail> result)
     {
-        this.movieDetail = movieDetail;
+        if (!result.hasError()) {
+            this.movieDetail = result.getResult();
 
-        refreshUi(movieDetail);
+            refreshUi(movieDetail);
+        }
+        else {
+            Toast.makeText(getContext(), getString(R.string.network_connectivity_error_message), Toast.LENGTH_LONG)
+                    .show();
+        }
     }
 
     private void refreshUi(MovieDetail movieDetail)

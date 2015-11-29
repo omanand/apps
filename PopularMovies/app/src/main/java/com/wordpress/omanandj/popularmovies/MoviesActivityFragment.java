@@ -13,9 +13,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.wordpress.omanandj.popularmovies.adapter.MoviePosterAdapter;
+import com.wordpress.omanandj.popularmovies.async.AsyncTaskResult;
 import com.wordpress.omanandj.popularmovies.async.FetchMoviePostersTask;
+import com.wordpress.omanandj.popularmovies.async.IAsyncTaskResponseHandler;
 import com.wordpress.omanandj.popularmovies.model.MoviePoster;
 import com.wordpress.omanandj.popularmovies.model.MoviesSortOrder;
 
@@ -25,7 +28,8 @@ import java.util.List;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MoviesActivityFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener
+public class MoviesActivityFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener,
+        IAsyncTaskResponseHandler<AsyncTaskResult<List<MoviePoster>>>
 {
     private static final String LOG_TAG = MoviesActivityFragment.class.getSimpleName();
     private static final String MOVIE_POSTERS = "moviePosters";
@@ -97,6 +101,7 @@ public class MoviesActivityFragment extends Fragment implements SharedPreference
     private void fetchMoviePostersData()
     {
         Log.v(LOG_TAG, "Fetching movie poster datat");
+        mProgressBar.setIndeterminate(true);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         final String orderByMostPopular = getString(R.string.sort_order_most_popular);
         final String orderByHighestRated = getString(R.string.sort_order_highest_rated);
@@ -109,7 +114,7 @@ public class MoviesActivityFragment extends Fragment implements SharedPreference
             sortOrder = MoviesSortOrder.HIGEST_RATED;
         }
 
-        FetchMoviePostersTask fetchMoviePostersTask = new FetchMoviePostersTask(mMoviePosterAdapter, mProgressBar);
+        FetchMoviePostersTask fetchMoviePostersTask = new FetchMoviePostersTask(this, this.getContext());
         fetchMoviePostersTask.execute(sortOrder);
     }
 
@@ -118,6 +123,21 @@ public class MoviesActivityFragment extends Fragment implements SharedPreference
     {
         if (isAdded() && getString(R.string.sort_order_prefrence_key).equals(key)) {
             fetchMoviePostersData();
+        }
+    }
+
+    @Override
+    public void processFinish(AsyncTaskResult<List<MoviePoster>> result)
+    {
+        if (!result.hasError()) {
+            mMoviePosterAdapter.clear();
+            mMoviePosterAdapter.addAll(result.getResult());
+            mProgressBar.setIndeterminate(false);
+        }
+        else {
+            // Show Toast message
+            Toast.makeText(getContext(), getString(R.string.network_connectivity_error_message), Toast.LENGTH_LONG)
+                    .show();
         }
     }
 }

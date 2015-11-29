@@ -19,6 +19,7 @@
     <string name="sort_order_most_popular">0</string>
     <string name="sort_order_highest_rated">1</string>
     <string name="title_activity_movie_detail">MovieDetailActivity</string>
+    <string name="network_connectivity_error_message">Network connectivity not available. Please try after sometime.</string>
 
 
 </resources>
