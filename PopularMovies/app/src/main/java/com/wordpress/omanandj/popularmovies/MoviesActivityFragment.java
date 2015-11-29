@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ProgressBar;
 
 import com.wordpress.omanandj.popularmovies.adapter.MoviePosterAdapter;
 import com.wordpress.omanandj.popularmovies.async.FetchMoviePostersTask;
@@ -31,7 +32,9 @@ public class MoviesActivityFragment extends Fragment implements SharedPreference
 
     private MoviePosterAdapter mMoviePosterAdapter;
 
-    List<MoviePoster> moviePosters = new ArrayList<>();
+    private List<MoviePoster> moviePosters = new ArrayList<>();
+
+    private ProgressBar mProgressBar;
 
     public MoviesActivityFragment()
     {
@@ -55,11 +58,12 @@ public class MoviesActivityFragment extends Fragment implements SharedPreference
         super.onSaveInstanceState(outState);
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        mProgressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar_id);
+
         GridView moviePosterGridView = (GridView) rootView.findViewById(R.id.movieposter_gridview);
 
         mMoviePosterAdapter = new MoviePosterAdapter(getActivity(), moviePosters);
@@ -67,10 +71,11 @@ public class MoviesActivityFragment extends Fragment implements SharedPreference
 
         moviePosterGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
                 MoviePoster moviePoster = mMoviePosterAdapter.getItem(position);
-                Intent intent = new Intent(getActivity(), MovieDetailActivity.class)
-                        .putExtra(Intent.EXTRA_TEXT, moviePoster.getId());
+                Intent intent = new Intent(getActivity(), MovieDetailActivity.class).putExtra(Intent.EXTRA_TEXT,
+                        moviePoster.getId());
 
                 startActivity(intent);
             }
@@ -104,7 +109,7 @@ public class MoviesActivityFragment extends Fragment implements SharedPreference
             sortOrder = MoviesSortOrder.HIGEST_RATED;
         }
 
-        FetchMoviePostersTask fetchMoviePostersTask = new FetchMoviePostersTask(mMoviePosterAdapter);
+        FetchMoviePostersTask fetchMoviePostersTask = new FetchMoviePostersTask(mMoviePosterAdapter, mProgressBar);
         fetchMoviePostersTask.execute(sortOrder);
     }
 

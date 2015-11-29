@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.ProgressBar;
 
 import com.wordpress.omanandj.popularmovies.adapter.MoviePosterAdapter;
 import com.wordpress.omanandj.popularmovies.model.MoviePoster;
@@ -19,10 +20,12 @@ public class FetchMoviePostersTask extends AsyncTask<MoviesSortOrder, Void, List
     private static final String LOG_TAG = FetchMoviePostersTask.class.getSimpleName();
 
     private final MoviePosterAdapter mMoviePosterAdapter;
+    private final ProgressBar mProgressBar;
 
-    public FetchMoviePostersTask(MoviePosterAdapter mMoviePosterAdapter)
+    public FetchMoviePostersTask(MoviePosterAdapter mMoviePosterAdapter, ProgressBar progressBar)
     {
         this.mMoviePosterAdapter = mMoviePosterAdapter;
+        this.mProgressBar = progressBar;
     }
 
     @Override
@@ -39,15 +42,22 @@ public class FetchMoviePostersTask extends AsyncTask<MoviesSortOrder, Void, List
     }
 
     @Override
+    protected void onPreExecute()
+    {
+        mProgressBar.setIndeterminate(true);
+        super.onPreExecute();
+    }
+
+    @Override
     protected void onPostExecute(List<MoviePoster> moviePosters)
     {
-        if(null != mMoviePosterAdapter && null != moviePosters) {
+        if (null != mMoviePosterAdapter && null != moviePosters) {
             mMoviePosterAdapter.clear();
             for (int i = 0; i < moviePosters.size(); i++) {
                 mMoviePosterAdapter.add(moviePosters.get(i));
             }
             mMoviePosterAdapter.notifyDataSetChanged();
-
+            mProgressBar.setIndeterminate(false);
         }
     }
 }

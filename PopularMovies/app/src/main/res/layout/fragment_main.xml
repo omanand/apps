@@ -8,6 +8,14 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity$MoviesActivityFragment">
 
+    <ProgressBar
+        android:id="@+id/progress_bar_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@android:style/Widget.Holo.ProgressBar.Horizontal"
+        android:layout_marginTop="150dp"
+        />
+
     <GridView
         android:id="@+id/movieposter_gridview"
         android:layout_width="match_parent"

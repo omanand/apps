@@ -1,8 +1,11 @@
 package com.wordpress.omanandj.popularmovies;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +18,6 @@ import com.wordpress.omanandj.popularmovies.async.IAsyncTaskResponse;
 import com.wordpress.omanandj.popularmovies.model.MovieDetail;
 import com.wordpress.omanandj.popularmovies.service.IMovieDbService;
 import com.wordpress.omanandj.popularmovies.service.impl.MovieDbService;
-
-import java.util.Calendar;
-import java.util.Date;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -47,7 +47,6 @@ public class MovieDetailActivityFragment extends Fragment implements IAsyncTaskR
     public void onCreate(Bundle savedInstanceState)
     {
         setHasOptionsMenu(true);
-
         super.onCreate(savedInstanceState);
 
     }
