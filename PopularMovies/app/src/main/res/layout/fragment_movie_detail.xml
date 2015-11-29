@@ -70,14 +70,14 @@
                 android:id="@+id/movie_detail_desc_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10sp"
+                android:padding="10dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:autoText="false" />
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="1sp"
-                android:padding="10sp"
+                android:layout_height="2dp"
+                android:padding="10dp"
                 android:background="@color/background_material_dark"
                 />
 
