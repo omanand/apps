@@ -20,11 +20,15 @@ public class FetchMovieDetailTask extends AsyncTask<String, Void, AsyncTaskResul
     private final IAsyncTaskResponseHandler<AsyncTaskResult<MovieDetail>> asyncTaskResponse;
     private final Context mContext;
 
+    IMovieDbService movieDbService;
+
+
     public FetchMovieDetailTask(IAsyncTaskResponseHandler<AsyncTaskResult<MovieDetail>> asyncTaskResponse,
-            Context context)
+            IMovieDbService movieDbService, Context context)
     {
         this.asyncTaskResponse = asyncTaskResponse;
         this.mContext = context;
+        this.movieDbService = movieDbService;
     }
 
     @Override
@@ -43,7 +47,6 @@ public class FetchMovieDetailTask extends AsyncTask<String, Void, AsyncTaskResul
 
         Log.v(LOG_TAG, "MovieDetail will be fetched for id " + movieId);
 
-        IMovieDbService movieDbService = MovieDbService.getInstance();
         MovieDetail movieDetail = movieDbService.getMovieDetail(movieId);
         return new AsyncTaskResult<>(movieDetail);
     }

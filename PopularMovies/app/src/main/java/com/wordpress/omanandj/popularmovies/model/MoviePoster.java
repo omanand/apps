@@ -2,6 +2,9 @@ package com.wordpress.omanandj.popularmovies.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
+
+import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
@@ -13,16 +16,30 @@ import java.io.Serializable;
 public class MoviePoster implements Parcelable
 {
 
+    public static final String ID = "id";
+    public static final String ORIGINAL_TITLE = "original_title";
+    public static final String POSTER_PATH = "poster_path";
+    public static final String LOG_TAG = MoviePoster.class.getSimpleName();
+
+    @SerializedName (ID)
     private String id;
+
+    @SerializedName (ORIGINAL_TITLE)
     private String originalTitle;
+
+    @SerializedName (POSTER_PATH)
     private String posterPath;
 
-    public MoviePoster(String id, String originalTitle, String posterPath)
+    public MoviePoster()
+    {
+    }
+
+   /* public MoviePoster(String id, String originalTitle, String posterPath)
     {
         this.id = id;
         this.originalTitle = originalTitle;
         this.posterPath = posterPath;
-    }
+    }*/
 
     protected MoviePoster(Parcel in)
     {

@@ -3,6 +3,8 @@ package com.wordpress.omanandj.popularmovies.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 
 /**
@@ -10,24 +12,34 @@ import java.util.Date;
  */
 public class MovieDetail implements Parcelable
 {
+    public static final String VOTE_AVERAGE = "vote_average";
+    public static final String RUNTIME = "runtime";
+    public static final String OVERVIEW = "overview";
+    public static final String RELEASE_DATE = "release_date";
+
+    @SerializedName (MoviePoster.ID)
     private String id;
+
+    @SerializedName (MoviePoster.ORIGINAL_TITLE)
     private String originalTitle;
+
+    @SerializedName (MoviePoster.POSTER_PATH)
     private String posterPath;
+
+    @SerializedName (OVERVIEW)
     private String overview;
+
+    @SerializedName (RELEASE_DATE)
     private Date releaseDate;
+
+    @SerializedName (VOTE_AVERAGE)
     private String voteAverage;
+
+    @SerializedName (RUNTIME)
     private int runtime;
 
-    public MovieDetail(String id, String originalTitle, String posterPath, String overview, Date releaseDate,
-            String voteAverage, int runtime)
+    public MovieDetail()
     {
-        this.id = id;
-        this.originalTitle = originalTitle;
-        this.posterPath = posterPath;
-        this.overview = overview;
-        this.releaseDate = releaseDate;
-        this.voteAverage = voteAverage;
-        this.runtime = runtime;
     }
 
     public String getId()

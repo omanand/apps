@@ -19,11 +19,15 @@ import com.wordpress.omanandj.popularmovies.adapter.MoviePosterAdapter;
 import com.wordpress.omanandj.popularmovies.async.AsyncTaskResult;
 import com.wordpress.omanandj.popularmovies.async.FetchMoviePostersTask;
 import com.wordpress.omanandj.popularmovies.async.IAsyncTaskResponseHandler;
+import com.wordpress.omanandj.popularmovies.config.DaggerMovieDbApiComponent;
 import com.wordpress.omanandj.popularmovies.model.MoviePoster;
 import com.wordpress.omanandj.popularmovies.model.MoviesSortOrder;
+import com.wordpress.omanandj.popularmovies.service.IMovieDbService;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -40,18 +44,32 @@ public class MoviesActivityFragment extends Fragment implements SharedPreference
 
     private ProgressBar mProgressBar;
 
+    @Inject
+    IMovieDbService movieDbService;
+
     public MoviesActivityFragment()
     {
-
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        ((PopMovieApp)getActivity().getApplication()).getmMovieDbApiComponent().inject(this);
+
         setHasOptionsMenu(true);
+        // Set Default here PreferenceManager.setDefaultValues(this, R.xml.advanced_preferences, false);
+        // http://developer.android.com/guide/topics/ui/settings.html
+        // Register this onResume and unregister onPause
         PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext())
                 .registerOnSharedPreferenceChangeListener(this);
+
+        // TODO: Add option to control data usage
+        /*
+         * <activity android:name="SettingsActivity" ... > <intent-filter> <action
+         * android:name="android.intent.action.MANAGE_NETWORK_USAGE" /> <category
+         * android:name="android.intent.category.DEFAULT" /> </intent-filter> </activity>
+         */
 
     }
 
@@ -70,7 +88,7 @@ public class MoviesActivityFragment extends Fragment implements SharedPreference
 
         GridView moviePosterGridView = (GridView) rootView.findViewById(R.id.movieposter_gridview);
 
-        mMoviePosterAdapter = new MoviePosterAdapter(getActivity(), moviePosters);
+        mMoviePosterAdapter = new MoviePosterAdapter(getActivity(), movieDbService, moviePosters);
         moviePosterGridView.setAdapter(mMoviePosterAdapter);
 
         moviePosterGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -114,7 +132,7 @@ public class MoviesActivityFragment extends Fragment implements SharedPreference
             sortOrder = MoviesSortOrder.HIGEST_RATED;
         }
 
-        FetchMoviePostersTask fetchMoviePostersTask = new FetchMoviePostersTask(this, this.getContext());
+        FetchMoviePostersTask fetchMoviePostersTask = new FetchMoviePostersTask(this,movieDbService, this.getContext());
         fetchMoviePostersTask.execute(sortOrder);
     }
 

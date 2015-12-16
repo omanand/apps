@@ -22,11 +22,14 @@ public class FetchMoviePostersTask extends AsyncTask<MoviesSortOrder, Void, Asyn
     private final IAsyncTaskResponseHandler<AsyncTaskResult<List<MoviePoster>>> mAsyncTaskResponse;
     private final Context mContext;
 
+    IMovieDbService movieDbService;
+
     public FetchMoviePostersTask(IAsyncTaskResponseHandler<AsyncTaskResult<List<MoviePoster>>> asyncTaskResponse,
-            Context context)
+            IMovieDbService movieDbService, Context context)
     {
         this.mAsyncTaskResponse = asyncTaskResponse;
         this.mContext = context;
+        this.movieDbService = movieDbService;
     }
 
     @Override
@@ -41,7 +44,6 @@ public class FetchMoviePostersTask extends AsyncTask<MoviesSortOrder, Void, Asyn
 
         Log.v(LOG_TAG, "MovieDetail will be fetched sorted orde by " + moviesSortOrder.getSortOrder());
 
-        IMovieDbService movieDbService = MovieDbService.getInstance();
         List<MoviePoster> moviePosters = movieDbService.getMoviePosters(moviesSortOrder);
         return new AsyncTaskResult(moviePosters);
     }

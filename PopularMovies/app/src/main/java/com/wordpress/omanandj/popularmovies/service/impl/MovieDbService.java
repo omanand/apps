@@ -1,147 +1,112 @@
 package com.wordpress.omanandj.popularmovies.service.impl;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.Collections;
 import java.util.List;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.net.Uri;
+import android.os.Looper;
 import android.util.Log;
 
+import com.wordpress.omanandj.popularmovies.api.IMovieDbApiEndPoint;
 import com.wordpress.omanandj.popularmovies.config.MovieDbConfig;
+import com.wordpress.omanandj.popularmovies.model.MovieConfig;
 import com.wordpress.omanandj.popularmovies.model.MovieDetail;
 import com.wordpress.omanandj.popularmovies.model.MoviePoster;
 import com.wordpress.omanandj.popularmovies.model.MoviesSortOrder;
-import com.wordpress.omanandj.popularmovies.network.HttpRequestHelper;
 import com.wordpress.omanandj.popularmovies.service.IMovieDbService;
+
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 /**
  * Created by ojha on 28/11/15.
+ *
  */
 public class MovieDbService implements IMovieDbService
 {
 
     private static final String LOG_TAG = MovieDbService.class.getSimpleName();
 
-    private static final String DISCOVER_MOVIE_URL_PATH = "/discover/movie";
-    private static final String CONFIGURATION_URL_PATH = "/configuration";
-    private static final String MOVIE_URL_PATH = "/movie";
-    private static final String MOVIEDB_API_KEY = "api_key";
-    private static final String CONFIG_IMAGES = "images";
-    private static final String CONFIG_IMAGES_BASE_URL = "secure_base_url";
-    private static final String RESULTS = "results";
-    private static final String ID = "id";
-    private static final String ORIGINAL_TITLE = "original_title";
-    private static final String POSTER_PATH = "poster_path";
-    private static final String OVERVIEW = "overview";
-    private static final String VOTE_AVERAGE = "vote_average";
-    private static final String RELEASE_DATE = "release_date";
-    private static final String RUNTIME = "runtime";
-    private static final String SORT_BY = "sort_by";
-
-    private static MovieDbService _movieDbService;
-    private static final Object lock = new Object();
-
     private String imageSecureBaseUrl;
 
-    private MovieDbService()
+    private IMovieDbApiEndPoint movieDbApiEndPoint;
+
+    public MovieDbService(IMovieDbApiEndPoint movieDbApiEndPoint)
     {
-        imageSecureBaseUrl = getImageSecureBaseUrl();
+        this.movieDbApiEndPoint = movieDbApiEndPoint;
     }
 
-    public static MovieDbService getInstance()
+
+    private synchronized void initilizeConfiguration()
     {
-        if (null == _movieDbService) {
-            synchronized (lock) {
-                if (null == _movieDbService) {
-                    _movieDbService = new MovieDbService();
+        if (null != imageSecureBaseUrl) {
+            return;
+        }
+
+        final Call<MovieConfig> movieConfigCall = movieDbApiEndPoint.getImageBaseUrl(MovieDbConfig.getApiKey());
+
+        if (Looper.myLooper() != Looper.getMainLooper()) {
+            try {
+                final Response<MovieConfig> response = movieConfigCall.execute();
+
+                if (response.isSuccess()) {
+                    imageSecureBaseUrl = response.body().getSecureBaseUrl();
+                    Log.v(LOG_TAG, "Image Base URL is " + imageSecureBaseUrl);
+
+                }
+                else {
+                    Log.e(LOG_TAG, "Error in getting configuration from the movie db");
+                    Log.e(LOG_TAG, "Error " + response.errorBody().string());
                 }
             }
+            catch (IOException e) {
+                Log.e(LOG_TAG, "Error in getting configuration from the movie db", e);
+            }
         }
-        return _movieDbService;
-    }
+        else {
+            movieConfigCall.enqueue(new Callback<MovieConfig>() {
+                @Override
+                public void onResponse(Response<MovieConfig> response, Retrofit retrofit)
+                {
+                    imageSecureBaseUrl = response.body().getSecureBaseUrl();
+                }
 
-    private String getImageSecureBaseUrl()
-    {
-        final String movieDbConfigUrl = MovieDbConfig.getBaseUrl() + CONFIGURATION_URL_PATH;
-
-        final Uri configUri = Uri.parse(movieDbConfigUrl).buildUpon()
-                .appendQueryParameter(MOVIEDB_API_KEY, MovieDbConfig.getApiKey()).build();
-
-        try {
-            final String responseJsonStr = HttpRequestHelper.executeSecureGet(configUri);
-
-            return parseMovieDbConfigResponse(responseJsonStr);
-        }
-        catch (IOException e) {
-            Log.e(LOG_TAG, "Error in getting configuration from the movie db", e);
-            return null;
-        }
-        catch (JSONException e) {
-            Log.e(LOG_TAG, "Error in parsing configuration json for the movie db");
-            return null;
-        }
-    }
-
-    private String parseMovieDbConfigResponse(String jsonString) throws JSONException
-    {
-
-        JSONObject jsonConfigResponse = new JSONObject(jsonString);
-        JSONObject jsonImages = jsonConfigResponse.getJSONObject(CONFIG_IMAGES);
-
-        return jsonImages.getString(CONFIG_IMAGES_BASE_URL);
-
-    }
-
-    private List<MoviePoster> parseDiscoveryResponse(String response) throws JSONException
-    {
-        List<MoviePoster> posters = new ArrayList<>();
-
-        JSONObject jsonResponse = new JSONObject(response);
-        JSONArray jsonMoviesArray = jsonResponse.getJSONArray(RESULTS);
-
-        for (int i = 0; i < jsonMoviesArray.length(); i++) {
-            JSONObject jsonMovie = jsonMoviesArray.getJSONObject(i);
-
-            MoviePoster poster = new MoviePoster(jsonMovie.getString(ID), jsonMovie.getString(ORIGINAL_TITLE),
-                    jsonMovie.getString(POSTER_PATH));
-
-            posters.add(poster);
+                @Override
+                public void onFailure(Throwable t)
+                {
+                    Log.e(LOG_TAG, "Error in getting configuration from the movie db", t);
+                }
+            });
         }
 
-        Log.v(LOG_TAG, "Posters size = " + posters.size());
-        Log.v(LOG_TAG, "Posters = " + posters);
-        return posters;
+        return;
     }
 
     @Override
     public List<MoviePoster> getMoviePosters(MoviesSortOrder moviesSortOrder)
     {
-        final String movieDbPostersUrl = MovieDbConfig.getBaseUrl() + DISCOVER_MOVIE_URL_PATH;
-
-        final Uri configUri = Uri.parse(movieDbPostersUrl).buildUpon()
-                .appendQueryParameter(SORT_BY, moviesSortOrder.getSortOrder())
-                .appendQueryParameter(MOVIEDB_API_KEY, MovieDbConfig.getApiKey()).build();
-
+        initilizeConfiguration();
+        List<MoviePoster> moviePosters = Collections.emptyList();
         try {
-            final String responseJsonStr = HttpRequestHelper.executeSecureGet(configUri);
+            final Call<List<MoviePoster>> moviePosterCall = movieDbApiEndPoint.getMoviePosters(
+                    MovieDbConfig.getApiKey(), moviesSortOrder);
 
-            return parseDiscoveryResponse(responseJsonStr);
+            final Response<List<MoviePoster>> response = moviePosterCall.execute();
+            if (response.isSuccess()) {
+                moviePosters = response.body();
+            }
+            else {
+                Log.e(LOG_TAG, "Error in discoverying movies from the movie db");
+                Log.e(LOG_TAG, "Error " + response.errorBody().string());
+            }
+
         }
         catch (IOException e) {
-            Log.e(LOG_TAG, "Error in getting doscovery from the movie db", e);
-            return null;
+            Log.e(LOG_TAG, "Error in discoverying movies from the movie db", e);
         }
-        catch (JSONException e) {
-            Log.e(LOG_TAG, "Error in parsing doscovery json for the movie db", e);
-            return null;
-        }
+        return moviePosters;
 
     }
 
@@ -154,46 +119,26 @@ public class MovieDbService implements IMovieDbService
     @Override
     public MovieDetail getMovieDetail(String id)
     {
-        final String movieUrl = MovieDbConfig.getBaseUrl() + MOVIE_URL_PATH;
-
-        final Uri configUri = Uri.parse(movieUrl).buildUpon()
-                .appendPath(id)
-                .appendQueryParameter(MOVIEDB_API_KEY, MovieDbConfig.getApiKey()).build();
+        MovieDetail movieDetail = null;
 
         try {
-            final String responseJsonStr = HttpRequestHelper.executeSecureGet(configUri);
+            final Call<MovieDetail> movieDetailCall = movieDbApiEndPoint.getMovieDetail(id, MovieDbConfig.getApiKey());
 
-            return parseMovieDetailResponse(responseJsonStr);
+            final Response<MovieDetail> response = movieDetailCall.execute();
+            if (response.isSuccess()) {
+                movieDetail = response.body();
+            }
+            else {
+                Log.e(LOG_TAG, "Error in getting movie details from the movie db");
+                Log.e(LOG_TAG, "Error " + response.errorBody().string());
+            }
+
         }
         catch (IOException e) {
-            Log.e(LOG_TAG, "Error in getting movie details from the movie db", e);
-            return null;
+            Log.e(LOG_TAG, "Error in discoverying movies from the movie db", e);
         }
-        catch (JSONException e) {
-            Log.e(LOG_TAG, "Error in parsing movie details json for the movie db", e);
-            return null;
-        }
+        return movieDetail;
+
     }
 
-    private MovieDetail parseMovieDetailResponse(String responseJsonStr) throws JSONException
-    {
-
-        JSONObject jsonMovie = new JSONObject(responseJsonStr);
-
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-        Date releaseDate;
-        try {
-            releaseDate = dateFormatter.parse(jsonMovie.getString(RELEASE_DATE));
-        }
-        catch (ParseException e) {
-            Log.e(LOG_TAG, "Error in parsing date");
-            releaseDate = new Date();
-        }
-        return new MovieDetail(jsonMovie.getString(ID), jsonMovie.getString(ORIGINAL_TITLE),
-                jsonMovie.getString(POSTER_PATH), jsonMovie.getString(OVERVIEW), releaseDate,
-                jsonMovie.getString(VOTE_AVERAGE), jsonMovie.getInt(RUNTIME)
-
-        );
-
-    }
 }

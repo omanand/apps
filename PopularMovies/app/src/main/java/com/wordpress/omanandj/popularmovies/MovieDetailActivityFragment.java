@@ -19,7 +19,8 @@ import com.wordpress.omanandj.popularmovies.async.FetchMovieDetailTask;
 import com.wordpress.omanandj.popularmovies.async.IAsyncTaskResponseHandler;
 import com.wordpress.omanandj.popularmovies.model.MovieDetail;
 import com.wordpress.omanandj.popularmovies.service.IMovieDbService;
-import com.wordpress.omanandj.popularmovies.service.impl.MovieDbService;
+
+import javax.inject.Inject;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -42,6 +43,9 @@ public class MovieDetailActivityFragment extends Fragment implements
 
     private MovieDetail movieDetail;
 
+    @Inject
+    IMovieDbService movieDbService;
+
     public MovieDetailActivityFragment()
     {
     }
@@ -49,6 +53,8 @@ public class MovieDetailActivityFragment extends Fragment implements
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
+        ((PopMovieApp)getActivity().getApplication()).getmMovieDbApiComponent().inject(this);
+
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
 
@@ -70,7 +76,7 @@ public class MovieDetailActivityFragment extends Fragment implements
             Intent intent = getActivity().getIntent();
             if (null != intent && intent.hasExtra(Intent.EXTRA_TEXT)) {
                 String movieId = intent.getStringExtra(Intent.EXTRA_TEXT);
-                FetchMovieDetailTask fetchMovieDetailTask = new FetchMovieDetailTask(this, getContext());
+                FetchMovieDetailTask fetchMovieDetailTask = new FetchMovieDetailTask(this, movieDbService,getContext());
                 fetchMovieDetailTask.execute(movieId);
             }
 
@@ -115,8 +121,6 @@ public class MovieDetailActivityFragment extends Fragment implements
 
     private void refreshUi(MovieDetail movieDetail)
     {
-
-        IMovieDbService movieDbService = MovieDbService.getInstance();
 
         int year = getYear(movieDetail.getReleaseDate());
 
