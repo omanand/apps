@@ -37,6 +37,7 @@ public class MoviePosterAdapter extends ArrayAdapter<MoviePoster>
             imageView = new ImageView(parent.getContext());
             imageView.setPadding(0, 0, 0, 0);
             imageView.setAdjustViewBounds(true);
+            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
         }
 
         final MoviePoster moviePoster = getItem(position);

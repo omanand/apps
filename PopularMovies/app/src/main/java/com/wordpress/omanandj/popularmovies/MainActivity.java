@@ -6,17 +6,35 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends AppCompatActivity implements MoviesActivityFragment.Callback
 {
+
+    public static final String MOVIE_DETAIL_FRAGMENT_TAG = "MDFTAG";
+    private boolean mTwoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().add(R.id.container, new MoviesActivityFragment()).commit();
+
+        if (findViewById(R.id.movie_detail_container) != null) {
+            mTwoPane = true;
+
+            if (savedInstanceState == null) {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.movie_detail_container, new MovieDetailActivityFragment(),
+                                MOVIE_DETAIL_FRAGMENT_TAG).commit();
+            }
         }
+        else {
+            mTwoPane = false;
+        }
+        /*
+         * if (savedInstanceState == null) { getSupportFragmentManager().beginTransaction().add(R.id.container, new
+         * MoviesActivityFragment()).commit(); }
+         */
     }
 
     @Override
@@ -43,4 +61,29 @@ public class MainActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onItemSelected(final String movieId)
+    {
+        if (mTwoPane) {
+            // In two-pane mode, show the detail view in this activity by
+            // adding or replacing the detail fragment using a
+            // fragment transaction.
+            Bundle args = new Bundle();
+            args.putString(MovieDetailActivityFragment.MOVIE_ID, movieId);
+
+            MovieDetailActivityFragment fragment = new MovieDetailActivityFragment();
+            fragment.setArguments(args);
+
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.movie_detail_container, fragment, MOVIE_DETAIL_FRAGMENT_TAG)
+                    .commit();
+        } else {
+            Intent intent = new Intent(this, MovieDetailActivity.class);
+            intent.putExtra(Intent.EXTRA_TEXT, movieId);
+
+            startActivity(intent);
+        }
+    }
+
 }

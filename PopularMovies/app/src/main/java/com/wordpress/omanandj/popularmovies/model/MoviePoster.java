@@ -34,12 +34,10 @@ public class MoviePoster implements Parcelable
     {
     }
 
-   /* public MoviePoster(String id, String originalTitle, String posterPath)
-    {
-        this.id = id;
-        this.originalTitle = originalTitle;
-        this.posterPath = posterPath;
-    }*/
+    /*
+     * public MoviePoster(String id, String ORIGINAL_TITLE, String POSTER_PATH) { this.id = id; this.ORIGINAL_TITLE =
+     * ORIGINAL_TITLE; this.POSTER_PATH = POSTER_PATH; }
+     */
 
     protected MoviePoster(Parcel in)
     {
@@ -77,13 +75,28 @@ public class MoviePoster implements Parcelable
         return posterPath;
     }
 
+    public void setId(String id)
+    {
+        this.id = id;
+    }
+
+    public void setOriginalTitle(String originalTitle)
+    {
+        this.originalTitle = originalTitle;
+    }
+
+    public void setPosterPath(String posterPath)
+    {
+        this.posterPath = posterPath;
+    }
+
     @Override
     public String toString()
     {
         final StringBuilder sb = new StringBuilder("MoviePoster{");
         sb.append("id='").append(id).append('\'');
-        sb.append(", originalTitle='").append(originalTitle).append('\'');
-        sb.append(", posterPath='").append(posterPath).append('\'');
+        sb.append(", ORIGINAL_TITLE='").append(originalTitle).append('\'');
+        sb.append(", POSTER_PATH='").append(posterPath).append('\'');
         sb.append('}');
         return sb.toString();
     }

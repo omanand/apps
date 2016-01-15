@@ -3,9 +3,11 @@ package com.wordpress.omanandj.popularmovies.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by ojha on 28/11/15.
@@ -17,29 +19,72 @@ public class MovieDetail implements Parcelable
     public static final String OVERVIEW = "overview";
     public static final String RELEASE_DATE = "release_date";
 
+    @Expose
     @SerializedName (MoviePoster.ID)
     private String id;
 
+    @Expose
     @SerializedName (MoviePoster.ORIGINAL_TITLE)
     private String originalTitle;
 
+    @Expose
     @SerializedName (MoviePoster.POSTER_PATH)
     private String posterPath;
 
+    @Expose
     @SerializedName (OVERVIEW)
     private String overview;
 
+    @Expose
     @SerializedName (RELEASE_DATE)
     private Date releaseDate;
 
+    @Expose
     @SerializedName (VOTE_AVERAGE)
     private String voteAverage;
 
+    @Expose
     @SerializedName (RUNTIME)
     private int runtime;
 
+    private List<MovieTrailer> movieTrailers;
+
+    private List<MovieReview> movieReviews;
+
+    private boolean isFavourite;
+
     public MovieDetail()
     {
+    }
+
+    public List<MovieTrailer> getMovieTrailers()
+    {
+        return movieTrailers;
+    }
+
+    public void setMovieTrailers(List<MovieTrailer> movieTrailers)
+    {
+        this.movieTrailers = movieTrailers;
+    }
+
+    public List<MovieReview> getMovieReviews()
+    {
+        return movieReviews;
+    }
+
+    public void setMovieReviews(List<MovieReview> movieReviews)
+    {
+        this.movieReviews = movieReviews;
+    }
+
+    public boolean isFavourite()
+    {
+        return isFavourite;
+    }
+
+    public void setFavourite(boolean favourite)
+    {
+        isFavourite = favourite;
     }
 
     public String getId()
@@ -75,6 +120,41 @@ public class MovieDetail implements Parcelable
     public int getRuntime()
     {
         return runtime;
+    }
+
+    public void setId(String id)
+    {
+        this.id = id;
+    }
+
+    public void setOriginalTitle(String originalTitle)
+    {
+        this.originalTitle = originalTitle;
+    }
+
+    public void setPosterPath(String posterPath)
+    {
+        this.posterPath = posterPath;
+    }
+
+    public void setOverview(String overview)
+    {
+        this.overview = overview;
+    }
+
+    public void setReleaseDate(Date releaseDate)
+    {
+        this.releaseDate = releaseDate;
+    }
+
+    public void setVoteAverage(String voteAverage)
+    {
+        this.voteAverage = voteAverage;
+    }
+
+    public void setRuntime(int runtime)
+    {
+        this.runtime = runtime;
     }
 
     @Override

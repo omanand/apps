@@ -19,9 +19,12 @@ import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor;
+import com.wordpress.omanandj.popularmovies.PopMovieApp;
 import com.wordpress.omanandj.popularmovies.config.MovieDbConfig;
 import com.wordpress.omanandj.popularmovies.model.MovieConfig;
 import com.wordpress.omanandj.popularmovies.model.MoviePoster;
+import com.wordpress.omanandj.popularmovies.model.MovieReview;
+import com.wordpress.omanandj.popularmovies.model.MovieTrailer;
 import com.wordpress.omanandj.popularmovies.service.IMovieDbService;
 import com.wordpress.omanandj.popularmovies.service.impl.MovieDbService;
 
@@ -41,9 +44,7 @@ public class MovieDbApiModule
         Gson gson = providesGson();
 
         IMovieDbApiEndPoint movieDbApiEndpoint = new Retrofit.Builder().baseUrl(MovieDbConfig.getBaseUrl())
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .client(providesHttpClient())
-                .build()
+                .addConverterFactory(GsonConverterFactory.create(gson)).client(providesHttpClient()).build()
                 .create(IMovieDbApiEndPoint.class);
         return movieDbApiEndpoint;
     }
@@ -51,12 +52,23 @@ public class MovieDbApiModule
     @NonNull
     @Provides
     @Singleton
-    Gson providesGson() {
-        return new GsonBuilder().setDateFormat("yyyy-MM-dd")
-                    .registerTypeAdapter(MovieConfig.class, new RestDeserializer<>(MovieConfig.class, MovieConfig.CONFIG_IMAGES))
-                    .registerTypeAdapter(new TypeToken<List<MoviePoster>>(){}.getType(), new RestDeserializer<>(new TypeToken<List<MoviePoster>>(){}.getType().getClass(), MovieConfig.RESULTS))
-                    .setPrettyPrinting()
-                    .create();
+    Gson providesGson()
+    {
+        return new GsonBuilder()
+                .excludeFieldsWithoutExposeAnnotation()
+                .setDateFormat("yyyy-MM-dd")
+                .registerTypeAdapter(MovieConfig.class,
+                        new RestDeserializer<>(MovieConfig.class, MovieConfig.CONFIG_IMAGES))
+                .registerTypeAdapter(new TypeToken<List<MoviePoster>>() {
+                }.getType(), new RestDeserializer<>(new TypeToken<List<MoviePoster>>() {
+                }.getType().getClass(), MovieConfig.RESULTS))
+                .registerTypeAdapter(new TypeToken<List<MovieTrailer>>() {
+                }.getType(), new RestDeserializer<>(new TypeToken<List<MovieTrailer>>() {
+                }.getType().getClass(), MovieConfig.RESULTS))
+                .registerTypeAdapter(new TypeToken<List<MovieReview>>() {
+                }.getType(), new RestDeserializer<>(new TypeToken<List<MovieReview>>() {
+                }.getType().getClass(), MovieConfig.RESULTS))
+                .setPrettyPrinting().create();
     }
 
     @NonNull
@@ -64,7 +76,7 @@ public class MovieDbApiModule
     @Singleton
     OkHttpClient providesHttpClient()
     {
-        OkHttpClient client =  new OkHttpClient();
+        OkHttpClient client = new OkHttpClient();
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         client.interceptors().add(interceptor);
@@ -104,7 +116,6 @@ class RestDeserializer<T> implements JsonDeserializer<T>
         else {
             return new Gson().fromJson(content, type);
         }
-
 
     }
 }

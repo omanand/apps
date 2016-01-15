@@ -38,7 +38,7 @@
 
             <ImageView
                 android:id="@+id/movie_poster_image_view_id"
-                android:layout_width="100dp"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true" />
 
@@ -74,24 +74,25 @@
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:clickable="true"
                     android:visibility="gone"/>
+                <TextView
+                    android:id="@+id/movie_detail_desc_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/movie_detail_basic_container"
+                    android:fontFamily="sans-serif-light"
+                    android:padding="10dp"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
             </LinearLayout>
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/movie_detail_desc_id"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/movie_detail_basic_container"
-            android:fontFamily="sans-serif-light"
-            android:padding="10dp"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
             android:id="@+id/divider_line_id"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@id/movie_detail_desc_id"
+            android:layout_below="@id/movie_detail_basic_container"
             android:background="@color/background_material_dark"
             android:padding="10dp"
             />

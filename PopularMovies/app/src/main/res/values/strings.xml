@@ -6,20 +6,30 @@
     <string-array name="sort_order_options">
         <item>Most Popular</item>
         <item>Highest Rated</item>
+        <item>Favorites</item>
     </string-array>
-    <string-array name="pref_sortorder_values">
-        <item>0</item>
-        <item>1</item>
-    </string-array>
+    <!--<string-array NAME="pref_sortorder_values">-->
+        <!--<item>0</item>-->
+        <!--<item>1</item>-->
+        <!--<item>2</item>-->
+    <!--</string-array>-->
     <string-array name="sort_order_values">
         <item>0</item>
         <item>1</item>
+        <item>2</item>
     </string-array>
 
     <string name="sort_order_most_popular">0</string>
     <string name="sort_order_highest_rated">1</string>
+    <string name="sort_order_favorites">2</string>
     <string name="title_activity_movie_detail">MovieDetailActivity</string>
     <string name="network_connectivity_error_message">Network connectivity not available. Please try after sometime.</string>
+    <string name="no_favourite_movie_message">No movie is marked as favourite. Please change the sort criteria.</string>
+    <string name="trailers">Trailers:</string>
+    <string name="reviews">Reviews:</string>
+    <string name="removed_from_favourite">Removed from favourite</string>
+    <string name="mark_as_favourite">Successfully saved as favourite Movie</string>
+    <string name="action_share">Share</string>
 
 
 </resources>

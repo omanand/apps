@@ -12,4 +12,15 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <!-- Style for Trailer listview -->
+    <style name="TrailerListStyle">
+        <!-- Here it's a stub.  In screens of sufficient width, this style includes modifications
+        for two-pane layout -->
+    </style>
+
+    <style name="ReviewListStyle">
+        <!-- Here it's a stub.  In screens of sufficient width, this style includes modifications
+        for two-pane layout -->
+    </style>
+
 </resources>

@@ -3,6 +3,8 @@ package com.wordpress.omanandj.popularmovies.api;
 import com.wordpress.omanandj.popularmovies.model.MovieConfig;
 import com.wordpress.omanandj.popularmovies.model.MovieDetail;
 import com.wordpress.omanandj.popularmovies.model.MoviePoster;
+import com.wordpress.omanandj.popularmovies.model.MovieReview;
+import com.wordpress.omanandj.popularmovies.model.MovieTrailer;
 import com.wordpress.omanandj.popularmovies.model.MoviesSortOrder;
 
 import java.util.List;
@@ -31,9 +33,15 @@ public interface IMovieDbApiEndPoint
 
     @GET (DISCOVER_MOVIE_URL_PATH)
     Call<List<MoviePoster>> getMoviePosters(@Query (MOVIEDB_API_KEY) String apiKey,
-                                           @Query (SORT_BY) MoviesSortOrder moviesSortOrder);
+            @Query (SORT_BY) String moviesSortOrder);
 
     @GET (MOVIE_URL_PATH + "/{id}")
     Call<MovieDetail> getMovieDetail(@Path ("id") String Id, @Query (MOVIEDB_API_KEY) String apiKey);
+
+    @GET (MOVIE_URL_PATH + "/{id}/videos")
+    Call<List<MovieTrailer>> getMovieTrailers(@Path ("id") String movieId, @Query (MOVIEDB_API_KEY) String apiKey);
+
+    @GET (MOVIE_URL_PATH + "/{id}/reviews")
+    Call<List<MovieReview>> getMovieReviews(@Path ("id") String movieId, @Query (MOVIEDB_API_KEY) String apiKey);
 
 }

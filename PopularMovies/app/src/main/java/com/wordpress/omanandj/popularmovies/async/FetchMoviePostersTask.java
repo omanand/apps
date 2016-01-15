@@ -10,7 +10,6 @@ import com.wordpress.omanandj.popularmovies.model.MoviePoster;
 import com.wordpress.omanandj.popularmovies.model.MoviesSortOrder;
 import com.wordpress.omanandj.popularmovies.network.NetworkUtils;
 import com.wordpress.omanandj.popularmovies.service.IMovieDbService;
-import com.wordpress.omanandj.popularmovies.service.impl.MovieDbService;
 
 /**
  * Created by ojha on 28/11/15.
@@ -22,14 +21,16 @@ public class FetchMoviePostersTask extends AsyncTask<MoviesSortOrder, Void, Asyn
     private final IAsyncTaskResponseHandler<AsyncTaskResult<List<MoviePoster>>> mAsyncTaskResponse;
     private final Context mContext;
 
-    IMovieDbService movieDbService;
+    private IMovieDbService movieDbService;
+    private boolean fetchFavourites;
 
     public FetchMoviePostersTask(IAsyncTaskResponseHandler<AsyncTaskResult<List<MoviePoster>>> asyncTaskResponse,
-            IMovieDbService movieDbService, Context context)
+            IMovieDbService movieDbService, Context context, boolean fetchFavourites)
     {
         this.mAsyncTaskResponse = asyncTaskResponse;
         this.mContext = context;
         this.movieDbService = movieDbService;
+        this.fetchFavourites = fetchFavourites;
     }
 
     @Override
@@ -37,15 +38,23 @@ public class FetchMoviePostersTask extends AsyncTask<MoviesSortOrder, Void, Asyn
     {
         Log.v(LOG_TAG, "Fetching popular popular movies..");
 
-        if (!NetworkUtils.isOnline(mContext)) {
-            return new AsyncTaskResult("Network Connectivity Not Available. Please try after sometime");
+        if (!NetworkUtils.isOnline(mContext) && !fetchFavourites) {
+
+            return new AsyncTaskResult<>("Network Connectivity Not Available. Please try after sometime");
         }
-        MoviesSortOrder moviesSortOrder = params[0];
+        List<MoviePoster> moviePosters = fetchFavourites ?
+                movieDbService.getMoviePostersFromLocalStore(mContext) : getMoviePosters(params[0]);
+
+        return new AsyncTaskResult<>(moviePosters);
+    }
+
+    private List<MoviePoster> getMoviePosters(MoviesSortOrder param)
+    {
+        MoviesSortOrder moviesSortOrder = param;
 
         Log.v(LOG_TAG, "MovieDetail will be fetched sorted orde by " + moviesSortOrder.getSortOrder());
 
-        List<MoviePoster> moviePosters = movieDbService.getMoviePosters(moviesSortOrder);
-        return new AsyncTaskResult(moviePosters);
+        return movieDbService.getMoviePosters(moviesSortOrder, mContext);
     }
 
     @Override

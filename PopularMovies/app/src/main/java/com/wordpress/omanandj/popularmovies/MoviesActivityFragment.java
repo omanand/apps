@@ -1,11 +1,15 @@
 package com.wordpress.omanandj.popularmovies;
 
-import android.content.Intent;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,15 +23,9 @@ import com.wordpress.omanandj.popularmovies.adapter.MoviePosterAdapter;
 import com.wordpress.omanandj.popularmovies.async.AsyncTaskResult;
 import com.wordpress.omanandj.popularmovies.async.FetchMoviePostersTask;
 import com.wordpress.omanandj.popularmovies.async.IAsyncTaskResponseHandler;
-import com.wordpress.omanandj.popularmovies.config.DaggerMovieDbApiComponent;
 import com.wordpress.omanandj.popularmovies.model.MoviePoster;
 import com.wordpress.omanandj.popularmovies.model.MoviesSortOrder;
 import com.wordpress.omanandj.popularmovies.service.IMovieDbService;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Inject;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -66,9 +64,9 @@ public class MoviesActivityFragment extends Fragment implements SharedPreference
 
         // TODO: Add option to control data usage
         /*
-         * <activity android:name="SettingsActivity" ... > <intent-filter> <action
-         * android:name="android.intent.action.MANAGE_NETWORK_USAGE" /> <category
-         * android:name="android.intent.category.DEFAULT" /> </intent-filter> </activity>
+         * <activity android:NAME="SettingsActivity" ... > <intent-filter> <action
+         * android:NAME="android.intent.action.MANAGE_NETWORK_USAGE" /> <category
+         * android:NAME="android.intent.category.DEFAULT" /> </intent-filter> </activity>
          */
 
     }
@@ -96,10 +94,11 @@ public class MoviesActivityFragment extends Fragment implements SharedPreference
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
                 MoviePoster moviePoster = mMoviePosterAdapter.getItem(position);
-                Intent intent = new Intent(getActivity(), MovieDetailActivity.class).putExtra(Intent.EXTRA_TEXT,
+                /*Intent intent = new Intent(getActivity(), MovieDetailActivity.class).putExtra(Intent.EXTRA_TEXT,
                         moviePoster.getId());
 
-                startActivity(intent);
+                startActivity(intent);*/
+                ((Callback) getActivity()).onItemSelected(moviePoster.getId());
             }
         });
 
@@ -123,18 +122,26 @@ public class MoviesActivityFragment extends Fragment implements SharedPreference
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         final String orderByMostPopular = getString(R.string.sort_order_most_popular);
         final String orderByHighestRated = getString(R.string.sort_order_highest_rated);
+        final String showFavourites = getString(R.string.sort_order_favorites);
 
         String sortOrderPref = sharedPreferences.getString(getString(R.string.sort_order_prefrence_key),
                 orderByMostPopular);
         MoviesSortOrder sortOrder = MoviesSortOrder.MOST_POPULAR;
 
+        boolean isFavourite = false;
         if (sortOrderPref.equals(orderByHighestRated)) {
             sortOrder = MoviesSortOrder.HIGEST_RATED;
         }
+        else if (sortOrderPref.equals(showFavourites))
+        {
+            isFavourite = true;
+        }
 
-        FetchMoviePostersTask fetchMoviePostersTask = new FetchMoviePostersTask(this,movieDbService, this.getContext());
+        FetchMoviePostersTask fetchMoviePostersTask = new FetchMoviePostersTask(this,movieDbService, this.getContext(), isFavourite);
         fetchMoviePostersTask.execute(sortOrder);
     }
+
+
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key)
@@ -147,15 +154,29 @@ public class MoviesActivityFragment extends Fragment implements SharedPreference
     @Override
     public void processFinish(AsyncTaskResult<List<MoviePoster>> result)
     {
-        if (!result.hasError()) {
+        if (!result.hasError() && result.getResult().size() > 0) {
             mMoviePosterAdapter.clear();
             mMoviePosterAdapter.addAll(result.getResult());
             mProgressBar.setIndeterminate(false);
         }
         else {
             // Show Toast message
-            Toast.makeText(getContext(), getString(R.string.network_connectivity_error_message), Toast.LENGTH_LONG)
-                    .show();
+            if(result.hasError()) {
+                Toast.makeText(getContext(), getString(R.string.network_connectivity_error_message), Toast.LENGTH_LONG)
+                        .show();
+            }
+            else {
+                Toast.makeText(getContext(), getString(R.string.no_favourite_movie_message), Toast.LENGTH_LONG)
+                        .show();
+            }
         }
+    }
+
+    public interface Callback
+    {
+        /**
+         * DetailFragmentCallback for when an item has been selected.
+         */
+        void onItemSelected(String movieId);
     }
 }
