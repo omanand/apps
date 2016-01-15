@@ -158,6 +158,7 @@ public class MoviesActivityFragment extends Fragment implements SharedPreference
             mMoviePosterAdapter.clear();
             mMoviePosterAdapter.addAll(result.getResult());
             mProgressBar.setIndeterminate(false);
+            ((Callback) getActivity()).onDefaultItem(result.getResult().get(0).getId());
         }
         else {
             // Show Toast message
@@ -177,5 +178,7 @@ public class MoviesActivityFragment extends Fragment implements SharedPreference
          * DetailFragmentCallback for when an item has been selected.
          */
         void onItemSelected(String movieId);
+
+        void onDefaultItem(String movieId);
     }
 }

@@ -86,4 +86,11 @@ public class MainActivity extends AppCompatActivity implements MoviesActivityFra
         }
     }
 
+    @Override
+    public void onDefaultItem(String movieId)
+    {
+        if (mTwoPane) {
+            onItemSelected(movieId);
+        }
+    }
 }
