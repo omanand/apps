@@ -1,11 +1,10 @@
 package com.wordpress.omanandj.popularmovies.config;
 
+import javax.inject.Singleton;
+
 import com.wordpress.omanandj.popularmovies.MovieDetailActivityFragment;
 import com.wordpress.omanandj.popularmovies.MoviesActivityFragment;
 import com.wordpress.omanandj.popularmovies.api.MovieDbApiModule;
-import com.wordpress.omanandj.popularmovies.service.impl.MovieDbService;
-
-import javax.inject.Singleton;
 
 import dagger.Component;
 

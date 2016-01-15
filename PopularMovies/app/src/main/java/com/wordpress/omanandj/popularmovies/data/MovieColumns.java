@@ -1,14 +1,11 @@
 package com.wordpress.omanandj.popularmovies.data;
 
-import com.wordpress.omanandj.popularmovies.model.MovieDetail;
-import com.wordpress.omanandj.popularmovies.model.MoviePoster;
-
-import net.simonvt.schematic.annotation.AutoIncrement;
 import net.simonvt.schematic.annotation.DataType;
 import net.simonvt.schematic.annotation.NotNull;
 import net.simonvt.schematic.annotation.PrimaryKey;
 
-import java.util.Date;
+import com.wordpress.omanandj.popularmovies.model.MovieDetail;
+import com.wordpress.omanandj.popularmovies.model.MoviePoster;
 
 /**
  * Created by ojha on 13/01/16.

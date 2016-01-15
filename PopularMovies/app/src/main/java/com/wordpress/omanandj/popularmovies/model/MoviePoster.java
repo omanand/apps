@@ -2,11 +2,8 @@ package com.wordpress.omanandj.popularmovies.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import com.google.gson.annotations.SerializedName;
-
-import java.io.Serializable;
 
 /**
  * Created by ojha on 28/11/15.

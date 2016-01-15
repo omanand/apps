@@ -1,5 +1,7 @@
 package com.wordpress.omanandj.popularmovies.adapter;
 
+import java.util.List;
+
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,14 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.wordpress.omanandj.popularmovies.R;
 import com.wordpress.omanandj.popularmovies.model.MovieTrailer;
-
-import java.util.List;
 
 /**
  * Created by ojha on 08/01/16.

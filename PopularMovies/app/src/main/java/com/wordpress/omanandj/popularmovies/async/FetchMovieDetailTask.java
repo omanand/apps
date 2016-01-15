@@ -1,5 +1,7 @@
 package com.wordpress.omanandj.popularmovies.async;
 
+import java.util.List;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -12,8 +14,6 @@ import com.wordpress.omanandj.popularmovies.model.MovieDetail;
 import com.wordpress.omanandj.popularmovies.model.MovieTrailer;
 import com.wordpress.omanandj.popularmovies.network.NetworkUtils;
 import com.wordpress.omanandj.popularmovies.service.IMovieDbService;
-
-import java.util.List;
 
 /**
  * Created by ojha on 29/11/15.

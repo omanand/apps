@@ -1,5 +1,7 @@
 package com.wordpress.omanandj.popularmovies.service;
 
+import java.util.List;
+
 import android.content.Context;
 
 import com.wordpress.omanandj.popularmovies.model.MovieDetail;
@@ -7,8 +9,6 @@ import com.wordpress.omanandj.popularmovies.model.MoviePoster;
 import com.wordpress.omanandj.popularmovies.model.MovieReview;
 import com.wordpress.omanandj.popularmovies.model.MovieTrailer;
 import com.wordpress.omanandj.popularmovies.model.MoviesSortOrder;
-
-import java.util.List;
 
 /**
  * Created by ojha on 28/11/15.

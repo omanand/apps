@@ -1,18 +1,17 @@
 package com.wordpress.omanandj.popularmovies.api;
 
-import com.wordpress.omanandj.popularmovies.model.MovieConfig;
-import com.wordpress.omanandj.popularmovies.model.MovieDetail;
-import com.wordpress.omanandj.popularmovies.model.MoviePoster;
-import com.wordpress.omanandj.popularmovies.model.MovieReview;
-import com.wordpress.omanandj.popularmovies.model.MovieTrailer;
-import com.wordpress.omanandj.popularmovies.model.MoviesSortOrder;
-
 import java.util.List;
 
 import retrofit.Call;
 import retrofit.http.GET;
 import retrofit.http.Path;
 import retrofit.http.Query;
+
+import com.wordpress.omanandj.popularmovies.model.MovieConfig;
+import com.wordpress.omanandj.popularmovies.model.MovieDetail;
+import com.wordpress.omanandj.popularmovies.model.MoviePoster;
+import com.wordpress.omanandj.popularmovies.model.MovieReview;
+import com.wordpress.omanandj.popularmovies.model.MovieTrailer;
 
 /**
  * Created by ojha on 13/12/15.

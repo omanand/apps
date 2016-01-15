@@ -1,7 +1,5 @@
 package com.wordpress.omanandj.popularmovies.model;
 
-import android.util.Log;
-
 import com.google.gson.annotations.SerializedName;
 
 /**

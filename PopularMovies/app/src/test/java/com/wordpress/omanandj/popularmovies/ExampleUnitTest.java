@@ -1,8 +1,8 @@
 package com.wordpress.omanandj.popularmovies;
 
-import org.junit.Test;
-
 import static org.junit.Assert.*;
+
+import org.junit.Test;
 
 /**
  * To work on unit tests, switch the Test Artifact in the Build Variants view.

@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 import com.wordpress.omanandj.popularmovies.model.MoviePoster;
 import com.wordpress.omanandj.popularmovies.service.IMovieDbService;
-import com.wordpress.omanandj.popularmovies.service.impl.MovieDbService;
 
 /**
  * Created by ojha on 28/11/15.

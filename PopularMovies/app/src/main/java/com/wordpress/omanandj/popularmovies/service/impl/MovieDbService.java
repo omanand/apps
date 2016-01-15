@@ -6,6 +6,11 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -27,11 +32,6 @@ import com.wordpress.omanandj.popularmovies.model.MovieTrailer;
 import com.wordpress.omanandj.popularmovies.model.MoviesSortOrder;
 import com.wordpress.omanandj.popularmovies.network.NetworkUtils;
 import com.wordpress.omanandj.popularmovies.service.IMovieDbService;
-
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
 
 /**
  * Created by ojha on 28/11/15.

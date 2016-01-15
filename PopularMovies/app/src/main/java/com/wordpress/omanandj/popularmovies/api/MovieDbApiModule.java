@@ -3,8 +3,8 @@ package com.wordpress.omanandj.popularmovies.api;
 import java.lang.reflect.Type;
 import java.util.List;
 
-import dagger.Module;
-import dagger.Provides;
+import javax.inject.Singleton;
+
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 
@@ -19,7 +19,6 @@ import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor;
-import com.wordpress.omanandj.popularmovies.PopMovieApp;
 import com.wordpress.omanandj.popularmovies.config.MovieDbConfig;
 import com.wordpress.omanandj.popularmovies.model.MovieConfig;
 import com.wordpress.omanandj.popularmovies.model.MoviePoster;
@@ -28,7 +27,8 @@ import com.wordpress.omanandj.popularmovies.model.MovieTrailer;
 import com.wordpress.omanandj.popularmovies.service.IMovieDbService;
 import com.wordpress.omanandj.popularmovies.service.impl.MovieDbService;
 
-import javax.inject.Singleton;
+import dagger.Module;
+import dagger.Provides;
 
 /**
  * Created by ojha on 13/12/15.
