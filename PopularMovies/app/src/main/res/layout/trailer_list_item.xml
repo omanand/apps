@@ -15,7 +15,7 @@
         android:layout_height="50dp"
         android:layout_gravity="left"
         android:layout_marginLeft="15dp"
-        android:src="@drawable/play_image"/>
+        android:src="@drawable/play_image" />
 
     <TextView
         android:id="@+id/list_item_trailer_name_view"
@@ -26,7 +26,6 @@
         android:fontFamily="sans-serif-condensed"
         android:text="Trailer1"
         android:textAppearance="?android:textAppearanceSmall" />
-
 
 
 </LinearLayout>

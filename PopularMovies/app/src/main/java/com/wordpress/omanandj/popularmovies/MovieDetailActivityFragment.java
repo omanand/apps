@@ -123,7 +123,8 @@ public class MovieDetailActivityFragment extends Fragment implements
 
         // Attach an intent to this ShareActionProvider. You can update this at any time,
         // like when the user selects a new piece of data they might like to share.
-        if (null != mShareActionProvider && movieDetail != null && null != movieDetail.getMovieTrailers() && movieDetail.getMovieTrailers().size() > 0) {
+        if (null != mShareActionProvider && movieDetail != null && null != movieDetail.getMovieTrailers()
+                && movieDetail.getMovieTrailers().size() > 0) {
             mShareActionProvider.setShareIntent(createShareForecastIntent(Utils.getYouTubeLink(movieDetail
                     .getMovieTrailers().get(0).getKey())));
         }
@@ -233,7 +234,8 @@ public class MovieDetailActivityFragment extends Fragment implements
                         v.setBackgroundResource(R.drawable.favourite_background_selected);
                         Toast.makeText(getContext(), getString(R.string.mark_as_favourite), Toast.LENGTH_SHORT).show();
                     }
-                    //MoviesActivityFragment fragment = (MoviesActivityFragment) getActivity().getSupportFragmentManager().
+                    // MoviesActivityFragment fragment = (MoviesActivityFragment)
+                    // getActivity().getSupportFragmentManager().
                 }
             }
         });
@@ -344,13 +346,13 @@ public class MovieDetailActivityFragment extends Fragment implements
         if (movieDetail.isFavourite()) {
             markAsFavouriteButtom.setBackgroundResource(R.drawable.favourite_background_selected);
         }
-        if (null != mShareActionProvider && movieDetail != null && null != movieDetail.getMovieTrailers() && movieDetail.getMovieTrailers().size() > 0) {
+        if (null != mShareActionProvider && movieDetail != null && null != movieDetail.getMovieTrailers()
+                && movieDetail.getMovieTrailers().size() > 0) {
             mShareActionProvider.setShareIntent(createShareForecastIntent(Utils.getYouTubeLink(movieDetail
                     .getMovieTrailers().get(0).getKey())));
         }
 
     }
-
 
     private int getYear(Date date)
     {

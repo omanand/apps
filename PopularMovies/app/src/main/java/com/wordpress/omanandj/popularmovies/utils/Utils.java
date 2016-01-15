@@ -8,6 +8,6 @@ public class Utils
 
     public static String getYouTubeLink(final String key)
     {
-        return  "https://www.youtube.com/watch?v=" + key;
+        return "https://www.youtube.com/watch?v=" + key;
     }
 }

@@ -23,23 +23,23 @@ public interface MovieTrailerColumns
     @NotNull
     String MOVIE_ID = "movie_id";
 
-    @DataType(DataType.Type.TEXT)
+    @DataType (DataType.Type.TEXT)
     @NotNull
     String KEY = MovieTrailer.KEY;
 
-    @DataType(DataType.Type.TEXT)
+    @DataType (DataType.Type.TEXT)
     @NotNull
     String NAME = MovieTrailer.NAME;
 
-    @DataType(DataType.Type.TEXT)
+    @DataType (DataType.Type.TEXT)
     @NotNull
     String SITE = MovieTrailer.SITE;
 
-    @DataType(DataType.Type.TEXT)
+    @DataType (DataType.Type.TEXT)
     @NotNull
     String SIZE = MovieTrailer.SIZE;
 
-    @DataType(DataType.Type.TEXT)
+    @DataType (DataType.Type.TEXT)
     @NotNull
     String TYPE = MovieTrailer.TYPE;
 }

@@ -6,6 +6,5 @@
     android:layout_height="match_parent"
     android:name="com.wordpress.omanandj.popularmovies.MoviesActivityFragment"
     tools:context="com.wordpress.omanandj.popularmovies.MoviesActivityFragment"
-    tools:layout="@layout/fragment_main"
-     />
+    tools:layout="@layout/fragment_main" />
 

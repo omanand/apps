@@ -61,14 +61,11 @@ public class MovieDbApiModule
                         new RestDeserializer<>(MovieConfig.class, MovieConfig.CONFIG_IMAGES))
                 .registerTypeAdapter(new TypeToken<List<MoviePoster>>() {
                 }.getType(), new RestDeserializer<>(new TypeToken<List<MoviePoster>>() {
-                }.getType().getClass(), MovieConfig.RESULTS))
-                .registerTypeAdapter(new TypeToken<List<MovieTrailer>>() {
+                }.getType().getClass(), MovieConfig.RESULTS)).registerTypeAdapter(new TypeToken<List<MovieTrailer>>() {
                 }.getType(), new RestDeserializer<>(new TypeToken<List<MovieTrailer>>() {
-                }.getType().getClass(), MovieConfig.RESULTS))
-                .registerTypeAdapter(new TypeToken<List<MovieReview>>() {
+                }.getType().getClass(), MovieConfig.RESULTS)).registerTypeAdapter(new TypeToken<List<MovieReview>>() {
                 }.getType(), new RestDeserializer<>(new TypeToken<List<MovieReview>>() {
-                }.getType().getClass(), MovieConfig.RESULTS))
-                .setPrettyPrinting().create();
+                }.getType().getClass(), MovieConfig.RESULTS)).setPrettyPrinting().create();
     }
 
     @NonNull

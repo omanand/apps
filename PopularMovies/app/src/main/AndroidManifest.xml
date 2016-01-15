@@ -44,7 +44,7 @@
         <provider
             android:authorities="com.wordpress.omanandj.popularmovies.MoviesProvider"
             android:name="com.wordpress.omanandj.popularmovies.data.generated.MoviesProvider"
-            android:exported="false"/>
+            android:exported="false" />
     </application>
 
 </manifest>

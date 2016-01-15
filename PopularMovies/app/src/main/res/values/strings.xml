@@ -9,9 +9,9 @@
         <item>Favorites</item>
     </string-array>
     <!--<string-array NAME="pref_sortorder_values">-->
-        <!--<item>0</item>-->
-        <!--<item>1</item>-->
-        <!--<item>2</item>-->
+    <!--<item>0</item>-->
+    <!--<item>1</item>-->
+    <!--<item>2</item>-->
     <!--</string-array>-->
     <string-array name="sort_order_values">
         <item>0</item>

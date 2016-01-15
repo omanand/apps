@@ -11,12 +11,16 @@
                     android:width="4dp"
                     android:color="@android:color/transparent" />
                 <solid android:color="@color/material_deep_teal_200" />
-                <size android:height="30dp" android:width="50dp"/>
-                <size android:height="40dp" android:width="70dp"/>
-                <padding android:top="10dp"/>
-                <padding android:bottom="5dp"/>
-                <padding android:left="5dp"/>
-                <padding android:right="5dp"/>
+                <size
+                    android:height="30dp"
+                    android:width="50dp" />
+                <size
+                    android:height="40dp"
+                    android:width="70dp" />
+                <padding android:top="10dp" />
+                <padding android:bottom="5dp" />
+                <padding android:left="5dp" />
+                <padding android:right="5dp" />
             </shape>
         </rotate>
     </item>

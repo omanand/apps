@@ -301,7 +301,7 @@ public class MovieDbService implements IMovieDbService
         Cursor cursor = context.getContentResolver().query(
                 MoviesProvider.MovieReviews.withId(movieId),
                 new String[] { MovieReviewColumns._ID, MovieReviewColumns.MOVIE_ID, MovieReviewColumns.AUTHOR,
-                        MovieReviewColumns.CONTENT, MovieReviewColumns.URL}, null, null, null);
+                    MovieReviewColumns.CONTENT, MovieReviewColumns.URL }, null, null, null);
 
         List<MovieReview> movieReviews = new ArrayList<>();
 

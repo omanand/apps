@@ -16,30 +16,28 @@ public interface MovieColumns
     @PrimaryKey
     String _ID = "_id";
 
-    @DataType(DataType.Type.TEXT)
+    @DataType (DataType.Type.TEXT)
     @NotNull
     String ORIGINAL_TITLE = "title";
 
-    @DataType(DataType.Type.TEXT)
+    @DataType (DataType.Type.TEXT)
     @NotNull
     String POSTER_PATH = MoviePoster.POSTER_PATH;
 
-    @DataType(DataType.Type.TEXT)
+    @DataType (DataType.Type.TEXT)
     @NotNull
     String OVERVIEW = MovieDetail.OVERVIEW;
 
-    @DataType(DataType.Type.INTEGER)
+    @DataType (DataType.Type.INTEGER)
     @NotNull
     String RELEASE_DATE = MovieDetail.RELEASE_DATE;
 
-    @DataType(DataType.Type.INTEGER)
+    @DataType (DataType.Type.INTEGER)
     @NotNull
     String VOTE_AVERAGE = MovieDetail.VOTE_AVERAGE;
 
-    @DataType(DataType.Type.INTEGER)
+    @DataType (DataType.Type.INTEGER)
     @NotNull
     String RUNTIME = MovieDetail.RUNTIME;
 
 }
-
-

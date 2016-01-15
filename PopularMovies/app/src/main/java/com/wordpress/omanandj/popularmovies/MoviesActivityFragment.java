@@ -53,7 +53,7 @@ public class MoviesActivityFragment extends Fragment implements SharedPreference
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        ((PopMovieApp)getActivity().getApplication()).getmMovieDbApiComponent().inject(this);
+        ((PopMovieApp) getActivity().getApplication()).getmMovieDbApiComponent().inject(this);
 
         setHasOptionsMenu(true);
         // Set Default here PreferenceManager.setDefaultValues(this, R.xml.advanced_preferences, false);
@@ -94,10 +94,12 @@ public class MoviesActivityFragment extends Fragment implements SharedPreference
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
                 MoviePoster moviePoster = mMoviePosterAdapter.getItem(position);
-                /*Intent intent = new Intent(getActivity(), MovieDetailActivity.class).putExtra(Intent.EXTRA_TEXT,
-                        moviePoster.getId());
-
-                startActivity(intent);*/
+                /*
+                 * Intent intent = new Intent(getActivity(), MovieDetailActivity.class).putExtra(Intent.EXTRA_TEXT,
+                 * moviePoster.getId());
+                 * 
+                 * startActivity(intent);
+                 */
                 ((Callback) getActivity()).onItemSelected(moviePoster.getId());
             }
         });
@@ -132,16 +134,14 @@ public class MoviesActivityFragment extends Fragment implements SharedPreference
         if (sortOrderPref.equals(orderByHighestRated)) {
             sortOrder = MoviesSortOrder.HIGEST_RATED;
         }
-        else if (sortOrderPref.equals(showFavourites))
-        {
+        else if (sortOrderPref.equals(showFavourites)) {
             isFavourite = true;
         }
 
-        FetchMoviePostersTask fetchMoviePostersTask = new FetchMoviePostersTask(this,movieDbService, this.getContext(), isFavourite);
+        FetchMoviePostersTask fetchMoviePostersTask = new FetchMoviePostersTask(this, movieDbService,
+                this.getContext(), isFavourite);
         fetchMoviePostersTask.execute(sortOrder);
     }
-
-
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key)
@@ -161,13 +161,12 @@ public class MoviesActivityFragment extends Fragment implements SharedPreference
         }
         else {
             // Show Toast message
-            if(result.hasError()) {
+            if (result.hasError()) {
                 Toast.makeText(getContext(), getString(R.string.network_connectivity_error_message), Toast.LENGTH_LONG)
                         .show();
             }
             else {
-                Toast.makeText(getContext(), getString(R.string.no_favourite_movie_message), Toast.LENGTH_LONG)
-                        .show();
+                Toast.makeText(getContext(), getString(R.string.no_favourite_movie_message), Toast.LENGTH_LONG).show();
             }
         }
     }

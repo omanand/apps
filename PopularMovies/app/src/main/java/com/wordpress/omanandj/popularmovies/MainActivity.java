@@ -76,9 +76,9 @@ public class MainActivity extends AppCompatActivity implements MoviesActivityFra
             fragment.setArguments(args);
 
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.movie_detail_container, fragment, MOVIE_DETAIL_FRAGMENT_TAG)
-                    .commit();
-        } else {
+                    .replace(R.id.movie_detail_container, fragment, MOVIE_DETAIL_FRAGMENT_TAG).commit();
+        }
+        else {
             Intent intent = new Intent(this, MovieDetailActivity.class);
             intent.putExtra(Intent.EXTRA_TEXT, movieId);
 

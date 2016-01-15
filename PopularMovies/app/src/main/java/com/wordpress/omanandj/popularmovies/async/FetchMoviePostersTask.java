@@ -42,8 +42,7 @@ public class FetchMoviePostersTask extends AsyncTask<MoviesSortOrder, Void, Asyn
 
             return new AsyncTaskResult<>("Network Connectivity Not Available. Please try after sometime");
         }
-        List<MoviePoster> moviePosters = fetchFavourites ?
-                movieDbService.getMoviePostersFromLocalStore(mContext) : getMoviePosters(params[0]);
+        List<MoviePoster> moviePosters = fetchFavourites ? movieDbService.getMoviePostersFromLocalStore(mContext) : getMoviePosters(params[0]);
 
         return new AsyncTaskResult<>(moviePosters);
     }

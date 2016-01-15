@@ -12,9 +12,10 @@ import dagger.Component;
  * Created by ojha on 16/12/15.
  */
 @Singleton
-@Component(modules = MovieDbApiModule.class)
+@Component (modules = MovieDbApiModule.class)
 public interface MovieDbApiComponent
 {
-    void inject (MovieDetailActivityFragment movieDetailActivityFragment);
-    void inject (MoviesActivityFragment moviesActivityFragment);
+    void inject(MovieDetailActivityFragment movieDetailActivityFragment);
+
+    void inject(MoviesActivityFragment moviesActivityFragment);
 }

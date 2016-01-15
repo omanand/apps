@@ -25,8 +25,7 @@
             android:paddingTop="@dimen/titleHeaderTopPadding"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#ffffffff"
-            android:textStyle="bold"
-           />
+            android:textStyle="bold" />
 
         <LinearLayout
             android:id="@+id/movie_detail_basic_container"
@@ -65,6 +64,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textAppearance="?android:attr/textAppearanceSmall" />
+
                 <TextView
                     android:id="@+id/mark_favourite_id"
                     android:layout_width="match_parent"
@@ -73,7 +73,7 @@
                     android:text="MARK AS FAVOURITE"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:clickable="true"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
             </LinearLayout>
 
         </LinearLayout>
@@ -93,8 +93,7 @@
             android:layout_height="1dp"
             android:layout_below="@id/movie_detail_desc_id"
             android:background="@color/background_material_dark"
-            android:padding="10dp"
-            />
+            android:padding="10dp" />
 
         <!--</ScrollView>-->
         <RelativeLayout
@@ -134,6 +133,7 @@
             android:layout_height="match_parent"
             android:layout_below="@id/movie_trailers_container_layout"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/review_divider_line_id"
                 android:layout_width="match_parent"
@@ -162,8 +162,7 @@
                 android:dividerHeight="2px"
                 android:footerDividersEnabled="true"
                 android:headerDividersEnabled="true"
-                android:visibility="visible"
-                />
+                android:visibility="visible" />
         </RelativeLayout>
     </RelativeLayout>
 
